@@ -165,7 +165,8 @@ class _JsonToDartSerializationState extends State<JsonToDartSerialization> {
     }
     resultString.write('$className({\n'); // start constructor
     for(int i=0 ; i < fieldsCount ; ++i){
-      resultString.write("required this.${CommonUtils.snakeToCamelCase(jsonMap.keys.elementAt(i))},\n");
+      bool nullSafeMark = jsonMap.entries.elementAt(i).value==null ;
+      resultString.write("${nullSafeMark ? '':'required'} this.${CommonUtils.snakeToCamelCase(jsonMap.keys.elementAt(i))},\n");
     }
     resultString.write('}) ;\n\n'); // close constructor
     resultString.write('factory $className.fromJson(Map<String, dynamic> jsonValue) => _\$${className}FromJson(jsonValue) ;\n\n'); // factory constructor: fromJson
